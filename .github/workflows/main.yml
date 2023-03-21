@@ -1,0 +1,30 @@
+# https://github.com/apache/hbase,801fc05e9c082ab12c7c1207087d3667ab162d1a,
+# hbase-server,
+# org.apache.hadoop.hbase.master.TestCatalogJanitor.testParentCleanedEvenIfDaughterGoneFirst,ID
+name: Test:TestCatalogJanitor.testParentCleanedEvenIfDaughterGoneFirst
+run-name: Known Flaky test
+on: [push]
+jobs:
+  Test_Without_Nondex_Shuffling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      - name: Test
+        run: mvn -pl hbase-server test -Dtest=org.apache.hadoop.hbase.master.TestCatalogJanitor#testParentCleanedEvenIfDaughterGoneFirst
+        
+  Test_With_Nondex_Shuffling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      - name: Test
+        run: mvn -X -pl hbase-server edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest=org.apache.hadoop.hbase.master.TestCatalogJanitor#testParentCleanedEvenIfDaughterGoneFirst
